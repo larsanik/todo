@@ -1,0 +1,5 @@
+Файла base.html нет по адресу allauth\templates\account\base.html в твоём виртуальном окружении — и это нормально.Почему файла нет в allauth\templates\account?В современных версиях django-allauth (начиная примерно с 0.50+) структура шаблонов изменилась:Старый путь (устаревший): account/base.html
+Новый путь (текущий): allauth/layouts/base.html
+
+То есть настоящий базовый шаблон allauth теперь лежит здесь:.../site-packages/allauth/templates/allauth/layouts/base.htmlА старые страницы (login.html, signup.html и т.д.) всё ещё находятся в папке account/, но они наследуются от нового allauth/layouts/base.html или allauth/layouts/entrance.html.
+
