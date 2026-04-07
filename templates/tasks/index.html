@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if object_list %}
+    <h3>Все мои листы</h3>
+    <ul>
+        {% for todo_list in object_list %}
+            <li>
+                <div role="button" onclick="#">{{ todo_list.title }}</div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>У тебя нет листов</h3>
+{% endif %}
+
+{% endblock %}

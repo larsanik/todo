@@ -1,12 +1,20 @@
+from symtable import Class
+
 from django.db import models
 
 from users.models import User
 
 
 # Create your models here.
+class TodoListManager(models.Manager):
+    def for_user(self, user):
+        return self.get_queryset().filter(owner=user)
+
 class TodoList(models.Model):
     title = models.CharField(max_length=100)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    objects = TodoListManager()
 
     def __str__(self):
         return self.title
