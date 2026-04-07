@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'allauth', # добавили приложение из документации на django-allauth
     'allauth.account', # добавили приложение из документации на django-allauth
     'allauth.socialaccount', # добавили приложение из документации на django-allauth
+    'tasks',
 ]
 
 MIDDLEWARE = [
