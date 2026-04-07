@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'allauth', # добавили приложение из документации на django-allauth
+    'allauth.account', # добавили приложение из документации на django-allauth
+    'allauth.socialaccount', # добавили приложение из документации на django-allauth
 ]
 
 MIDDLEWARE = [
@@ -50,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware', # добавил настройку из документации на django-allauth
+    # (в уроке ее не было)
 ]
 
 ROOT_URLCONF = 'todo.urls'
@@ -120,5 +125,13 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Authentication model
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User' # добавили свою модель для аутентификации пользователя
 
+AUTHENTICATION_BACKENDS = [
+     'django.contrib.auth.backends.ModelBackend', # добавили Стандартная аутентификация Django
+    # (логин по username + пароль) из документации на django-allauth
+   'allauth.account.auth_backends.AuthenticationBackend', # добавили Расширенная аутентификация
+    # от django-allauth (логин по email, социальные сети и т.д.)  из документации на django-allauth
+]
+
+ACCOUNT_EMAIL_VERIFICATION = 'none' # добавили, чтобы решить проблему с отсутствием подтверждения по почте
