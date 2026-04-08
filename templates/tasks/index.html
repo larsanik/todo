@@ -7,7 +7,7 @@
     <ul>
         {% for todo_list in object_list %}
             <li>
-                <div role="button" onclick="#">{{ todo_list.title }}</div>
+                <div role="button" onclick="location.href='{% url "list" todo_list.id %}'">{{ todo_list.title }}</div>
             </li>
         {% endfor %}
     </ul>
