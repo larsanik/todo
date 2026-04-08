@@ -1,6 +1,7 @@
 from symtable import Class
 
 from django.db import models
+from django.urls import reverse
 
 from users.models import User
 
@@ -18,6 +19,9 @@ class TodoList(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("list", args=[self.pk])
 
 class TodoItem(models.Model):
     title = models.CharField(max_length=100)
