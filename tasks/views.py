@@ -8,7 +8,7 @@ from tasks.models import TodoList
 # Create your views here.
 class TodoListListView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy('account_login')
-    template_name = 'task/index.html'
+    template_name = 'tasks/index.html'
 
     def get_queryset(self):
         return TodoList.objects.for_user(self.request.user)
