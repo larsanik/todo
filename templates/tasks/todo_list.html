@@ -20,5 +20,8 @@
         <h5>У вас нет задач в этом списке</h5>
         {% endfor %}
     </ul>
+    <p>
+        <input value="Добавить новую задачу" type="button" onclick="location.href=' {% url "item-add" todo_list.id %}'"/>
+    </p>
 </div>
 {% endblock %}
