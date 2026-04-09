@@ -1,3 +1,4 @@
+from django import forms
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView
@@ -52,10 +53,14 @@ class TodoItemCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('list', args=[self.object.todo_list_id])
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         todo_list = TodoList.objects.for_user(self.request.user).get(id=self.kwargs["list_id"])
         context["todo_list"] = todo_list
-        context["title"] = "Create a new item"
+        context["title"] = "Создать новую задачу"
         return context
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['due_date'].widget = forms.SelectDateWidget()
+        return form
