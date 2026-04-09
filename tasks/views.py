@@ -1,7 +1,7 @@
 from django import forms
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from tasks.models import TodoList, TodoItem
 from django.core.exceptions import PermissionDenied
@@ -78,3 +78,11 @@ class TodoItemUpdateView(LoginRequiredMixin, UpdateView):
 
      def get_success_url(self):
          return reverse('list', args=[self.object.todo_list_id])
+
+
+class TodoListDeleteView(LoginRequiredMixin, DeleteView):
+    model = TodoList
+    success_url = reverse_lazy('index')
+
+    def get_queryset(self):
+        return TodoList.objects.for_user(self.request.user)
