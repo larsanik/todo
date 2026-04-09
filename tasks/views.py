@@ -80,9 +80,28 @@ class TodoItemUpdateView(LoginRequiredMixin, UpdateView):
          return reverse('list', args=[self.object.todo_list_id])
 
 
+
 class TodoListDeleteView(LoginRequiredMixin, DeleteView):
     model = TodoList
     success_url = reverse_lazy('index')
 
     def get_queryset(self):
         return TodoList.objects.for_user(self.request.user)
+
+
+class TodoItemDeleteView(LoginRequiredMixin, DeleteView):
+    model = TodoItem
+
+    def get_success_url(self):
+        return reverse_lazy("list", args=[self.kwargs["list_id"]])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['todo_list'] = self.object.todo_list
+        return context
+
+    def get_queryset(self):
+        todo_list = TodoList.objects.for_user(self.request.user).filter(pk=self.kwargs['list_id'])
+        if todo_list is None:
+            raise PermissionDenied()
+        return TodoItem.objects.filter(todo_list_id=self.kwargs['list_id'])
