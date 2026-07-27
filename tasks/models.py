@@ -29,7 +29,7 @@ class TodoItem(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField(null=True, blank=True)
 
-    todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE)
+    todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE, related_name="items")
 
     def __str__(self):
         return f"{self.title} due: {self.date if self.due_date else 'whenever'}"
