@@ -1,20 +1,29 @@
-from django.shortcuts import render
-from rest_framework import views
-from rest_framework.response import Response
+#from django.shortcuts import render
+#from rest_framework import views
+#from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework import permissions
 
 from api.serializers import TodoListSerializer
+from api.permissions import IsOwner
 from tasks.models import TodoList
 
 
 # Create your views here.
-class TodoListListView(generics.ListAPIView):
+class TodoListListCreateView(generics.ListCreateAPIView):
     serializer_class = TodoListSerializer
     queryset = TodoList.objects.all()
+    permission_classes = [permissions.IsAuthenticated] # добавили проверку аутентификации пользователя
 
-# Переписали через rest_framework  generics и то что ниже уже не нужно
-#class TodoListListView(views.APIView):
-    # def get(self, request, **kwargs):
-    #     todo_list = TodoList.objects.all()
-    #     serialized = TodoListSerializer(todo_list, many=True)
-    #     return Response(serialized.data)
+    def filter_queryset(self, queryset):
+        return queryset.filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class TodoListRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = TodoListSerializer
+    queryset = TodoList.objects.all()
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
+

@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')), # добавили путь из документации на django-allauth
     path('api/', include('api.urls')),
+    path('api_auth/', include('rest_framework.urls')),
     path('', include('tasks.urls')), # добавили путь на приложение tasks
 ]
