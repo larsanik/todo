@@ -20,5 +20,6 @@ from django.urls import path, include # импортировали дополн�
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')), # добавили путь из документации на django-allauth
+    path('api/', include('api.urls')),
     path('', include('tasks.urls')), # добавили путь на приложение tasks
 ]

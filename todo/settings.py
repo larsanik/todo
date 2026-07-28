@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'allauth.account', # добавили приложение из документации на django-allauth
     'allauth.socialaccount', # добавили приложение из документации на django-allauth
     'tasks',
+    'rest_framework', # перед подключением приложения с нашим API нужно подключить сам django-rest-framework
+    'api', # подключили приложение с нашим API
 ]
 
 MIDDLEWARE = [
