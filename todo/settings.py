@@ -141,3 +141,9 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_EMAIL_VERIFICATION = 'none' # добавили, чтобы решить проблему с отсутствием подтверждения по почте
 
+# настройка пагинации
+# REST framework
+
+REST_FRAMEWORK = {"DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+                  "PAGE_SIZE": 2
+}
