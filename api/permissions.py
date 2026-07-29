@@ -6,3 +6,8 @@ class IsOwner(permissions.BasePermission):
         if obj.owner == request.user:
             return True
         return False
+
+
+class IsListOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.todo_list.owner == request.user
