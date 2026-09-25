@@ -1,0 +1,12 @@
+# сначала  * отправляем все в игнор, потом ! (инверсия) добавляем исключения
+*
+!todo
+!users
+!tasks
+!api
+!templates
+!pyproject.toml
+!poetry.lock
+!manage.py
+!READMY.md
+!docker-rntrypoint.sh
