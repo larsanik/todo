@@ -14,13 +14,16 @@ ENV PATH="$PATH:$POETRY_HOME/bin"
 
 # в контейнере делать виртуальные окружения нет смысла, так как на каждое приложение свой контейнер
 # запрещаем poetry создавать виртуальное окружение
-RUN poetry config virtualenvs.create false
+RUN poetry config virtualenvs.create false \
+    && poetry config cache-dir /cache/poetry
+    # ^ добавили папку для хранения кеша зависимостей, чтобы не создавать при каждой сборке
 
 WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry install --only main
+RUN --mount=type=cache,target=/cache/poetry \
+    poetry install --only main
 
 # наследован от base-prod
 # для сборки docker build --target base-dev . -t dev (в toml должен быть соотвесвующий раздел dev
@@ -28,7 +31,8 @@ RUN poetry install --only main
 # после добавления ARG так docker build --build-arg DEPS=dev . -t dev
 FROM base-prod AS base-dev
 
-RUN poetry install --only dev
+RUN --mount=type=cache,target=/cache/poetry \
+    poetry install --only dev
 
 # для исключения дублирования в стейджах сборки прода или разработки
 FROM base-${DEPS} AS final
