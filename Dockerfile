@@ -1,4 +1,8 @@
-FROM python:3.13.0-slim
+ARG DEPS=prod
+
+# для сборки docker build --target base-prod . -t dev
+# после добавления ARG так docker build --build-arg DEPS=prod . -t dev
+FROM python:3.13.0-slim AS base-prod
 
 RUN apt-get update && apt-get install -yq curl \
     && apt-get clean \
@@ -14,8 +18,21 @@ RUN poetry config virtualenvs.create false
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock READMY.md ./
+COPY pyproject.toml poetry.lock ./
 
-RUN poetry install
+RUN poetry install --only main
+
+# наследован от base-prod
+# для сборки docker build --target base-dev . -t dev (в toml должен быть соотвесвующий раздел dev
+# с зависимостями для разработки(тестирование и т.д.). В моем проекте такого нет, поэтому ошибка при сборке.)
+# после добавления ARG так docker build --build-arg DEPS=dev . -t dev
+FROM base-prod AS base-dev
+
+RUN poetry install --only dev
+
+# для исключения дублирования в стейджах сборки прода или разработки
+FROM base-${DEPS} AS final
 
 COPY . .
+
+RUN poetry install --only-root
