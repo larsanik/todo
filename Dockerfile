@@ -14,6 +14,8 @@ RUN poetry config virtualenvs.create false
 
 WORKDIR /app
 
-COPY . .
+COPY pyproject.toml poetry.lock READMY.md ./
 
 RUN poetry install
+
+COPY . .
