@@ -9,4 +9,4 @@
 !poetry.lock
 !manage.py
 !READMY.md
-!docker-rntrypoint.sh
+!docker-entrypoint.sh

@@ -40,3 +40,7 @@ FROM base-${DEPS} AS final
 COPY . .
 
 RUN poetry install --only-root
+
+# настройка точки запуска программы
+ENTRYPOINT ["bash", "-c"]
+CMD ["./docker-entrypoint.sh"]
